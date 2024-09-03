@@ -1,6 +1,8 @@
 package be.bstorm.tf_java2024_demospringapi.bll.services.impl;
 
+import be.bstorm.tf_java2024_demospringapi.bll.models.OrderDTOBusiness;
 import be.bstorm.tf_java2024_demospringapi.bll.models.OrderFormBusiness;
+import be.bstorm.tf_java2024_demospringapi.bll.models.OrderLineDTOBusiness;
 import be.bstorm.tf_java2024_demospringapi.bll.models.OrderLineFormBusiness;
 import be.bstorm.tf_java2024_demospringapi.bll.services.OrderService;
 import be.bstorm.tf_java2024_demospringapi.dal.repositories.OrderLineRepository;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +42,18 @@ public class OrderServiceImpl implements OrderService {
             OrderLine orderLine = new OrderLine(ol.quantity());
             orderLine.setProduct(p);
             orderLine.setOrder(order);
+            p.setQuantity(p.getQuantity() - ol.quantity());
             orderLineRepository.save(orderLine);
         }
+    }
+
+    @Override
+    public OrderDTOBusiness getOrder(Long orderId) {
+        OrderDTOBusiness order = OrderDTOBusiness.fromEntity(orderRepository.findById(orderId).orElseThrow());
+        Set<OrderLineDTOBusiness> orderLines = orderLineRepository.findByOrderId(orderId).stream()
+                .map(OrderLineDTOBusiness::fromEntity)
+                .collect(Collectors.toSet());
+        order.setOrderLines(orderLines);
+        return order;
     }
 }

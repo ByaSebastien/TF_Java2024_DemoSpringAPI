@@ -6,10 +6,11 @@ public record ProductDetailsDTO(
         Long id,
         String name,
         String description,
-        Double price
+        Double price,
+        Integer quantity
 ) {
 
     public static ProductDetailsDTO fromEntity(Product product) {
-        return new ProductDetailsDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice());
+        return new ProductDetailsDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getQuantity());
     }
 }

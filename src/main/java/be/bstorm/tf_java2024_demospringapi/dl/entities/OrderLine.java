@@ -15,7 +15,7 @@ public class OrderLine {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
 
     @ManyToOne

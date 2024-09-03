@@ -5,10 +5,11 @@ import be.bstorm.tf_java2024_demospringapi.dl.entities.Product;
 public record ProductShortDTO(
         Long id,
         String name,
-        Double price
+        Double price,
+        Integer quantity
 ) {
 
     public static ProductShortDTO fromEntity(Product product) {
-        return new ProductShortDTO(product.getId(), product.getName(), product.getPrice());
+        return new ProductShortDTO(product.getId(), product.getName(), product.getPrice(), product.getQuantity());
     }
 }
