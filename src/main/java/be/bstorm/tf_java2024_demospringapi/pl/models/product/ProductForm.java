@@ -16,10 +16,14 @@ public record ProductForm(
 
         @NotNull
         @Range(min = 0)
-        Double price
+        Double price,
+
+        @NotNull
+        @Range(min = 0)
+        Integer quantity
 ) {
 
     public Product toEntity() {
-        return new Product(name, description, price);
+        return new Product(name, description, price, quantity);
     }
 }
