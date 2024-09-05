@@ -21,6 +21,9 @@ public class Order {
 
     private String comment;
 
+    @ManyToOne
+    private User user;
+
     public Order(String comment) {
         this.comment = comment;
     }

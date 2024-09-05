@@ -4,7 +4,7 @@ import be.bstorm.tf_java2024_demospringapi.bll.models.OrderLineFormBusiness;
 import org.hibernate.validator.constraints.Range;
 
 public record OrderLineForm(
-        @Range(min = 0)
+        @Range(min = 1)
         int quantity,
         Long productId
 ) {

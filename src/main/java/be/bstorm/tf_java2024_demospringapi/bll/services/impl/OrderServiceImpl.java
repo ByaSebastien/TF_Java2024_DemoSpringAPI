@@ -11,6 +11,7 @@ import be.bstorm.tf_java2024_demospringapi.dal.repositories.ProductRepository;
 import be.bstorm.tf_java2024_demospringapi.dl.entities.Order;
 import be.bstorm.tf_java2024_demospringapi.dl.entities.OrderLine;
 import be.bstorm.tf_java2024_demospringapi.dl.entities.Product;
+import be.bstorm.tf_java2024_demospringapi.dl.entities.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void addOrder(OrderFormBusiness form) {
+    public void addOrder(OrderFormBusiness form, User user) {
         Order order = new Order(form.comment());
         order.setOrderDate(LocalDateTime.now());
+        order.setUser(user);
         orderRepository.save(order);
 
         for(OrderLineFormBusiness ol : form.orderLines()){

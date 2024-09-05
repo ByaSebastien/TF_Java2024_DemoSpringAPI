@@ -7,6 +7,7 @@ import be.bstorm.tf_java2024_demospringapi.pl.models.product.ProductShortDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
@@ -35,6 +36,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductForm form){
         Long id = productService.create(form.toEntity());
         UriComponents uriComponents = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id);
@@ -42,12 +44,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id:^\\d+}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> updateProduct(@PathVariable long id, @Valid @RequestBody ProductForm form){
         productService.update(id, form.toEntity());
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id:^\\d+}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteProduct(@PathVariable long id){
         productService.delete(id);
         return ResponseEntity.noContent().build();
